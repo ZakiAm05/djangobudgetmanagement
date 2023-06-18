@@ -1,0 +1,10 @@
+.nobored td{
+border-top:None !important;
+border-bottom:None !important;
+}
+th,td{
+	padding:0px !important;
+}
+.noMarginbt{
+	margin-bottom:0px !important;
+}

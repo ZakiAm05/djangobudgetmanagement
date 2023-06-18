@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+{% load static %}
+<html lang="ar">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    {% block style %}
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+	{% endblock %}
+</head>
+
+<body>
+	<style>
+		
+		.textfont {
+		font-size:5t;
+		color:#000000;
+		font-family:Times New Roman;
+		font-weight:bold;
+		}
+		.textfont1 {
+		font-size:18px;
+		color:#000000;
+		font-family:Times New Roman;
+		font-weight:bold;
+		}
+		.td{
+		padding:8px;
+		}
+		.Page{
+			position:relative;
+			width:21cm;
+			max-width:21cm;
+			height:29.7cm;
+			max-height:29.7cm;
+			margin:auto;
+			/*border-style:solid;
+			border-width:1px;*/
+
+		}
+		
+		.bordered{
+			border: 1px solid black !important;
+		}
+		.left-bordered{
+			border-left:1px solid !important;
+		}
+		.top-bordered{
+			border-top:1px solid #000 !important;
+		}
+		.right-bordered{
+			border-right:1px solid #000 !important;
+		}
+		.bottom-bordered{
+			border-bottom:1px solid #000 !important;
+		}
+		.column{
+			position:absolute;
+		}
+		
+		table,th,td{
+		border-collapse:collapse;
+		border:1px solid black;
+		}
+		
+		.color-silver{
+			background-color:silver !important;
+		}
+	
+		
+	</style>
+	<div class="Page">
+		<div  nowrap="true" style="top:15px;left:255px;width:300px;height:45px;text-align:center; position:absolute;text-align:center;">
+					<span class="textfont">الجمهورية الجزائرية الديمقراطية الشعبية</span>
+		</div>
+		
+		<div  nowrap="true" style="top:95px;left:620px;width:150px;height:16px;position:absolute;text-align:center;">
+				<span class="textfont">المدخلات و المخرجات اليومية</span>
+		</div>
+		
+		
+		
+
+		
+	</div>
+
+
+
+
+
+
+
+
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+<!--	<script src="{% static 'js/jquery.min.js' %}" ></script>-->
+<!--	<script src="{% static ' js/popper.min.js' %} " ></script>-->
+<!--	<script src="{% static 'js/bootstrap.min.js' %}"></script>-->
+</body>
+
+</html>

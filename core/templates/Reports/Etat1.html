@@ -1,0 +1,917 @@
+﻿<!DOCTYPE html>
+{% load static %}
+<html lang="ar">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    {% block style %}
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+	{% endblock %}
+</head>
+
+<body>
+	<style>
+		
+		.textfont {
+		font-size:20px;
+		color:#000000;
+		font-family:Times New Roman;
+		font-weight:bold;
+		}
+
+		.textfont1 {
+		font-size:22px;
+		color:#000000;
+		font-family:Times New Roman;
+		font-weight:bold;
+		}
+
+		.textfont2 {
+		font-size:20px;
+		color:#000000;
+		font-family:Droid Arabic Kufi;
+		font-weight:bold;
+		}
+		.textfont3 {
+		font-size:20px;
+		color:#000000;
+		font-family:Times New Roman;
+		}
+		.td{
+		padding:8px;
+		}
+		.Page{
+			position:relative;
+			width:21cm;
+			max-width:21cm;
+			height:29.7cm;
+			max-height:29.7cm;
+			margin:auto;
+			/*border-style:solid;
+			border-width:1px;*/
+
+		}
+		
+		.bordered{
+			border: 3px ridge black !important;
+		}
+		.borderedcase{
+			border: 3px solid black !important;
+		}
+		.left-bordered{
+			border-left:1px solid !important;
+		}
+		.top-bordered{
+			border-top:1px solid #000 !important;
+		}
+		.right-bordered{
+			border-right:1px solid #000 !important;
+		}
+		.bottom-bordered{
+			border-bottom:1px solid #000 !important;
+		}
+		.column{
+			position:absolute;
+		}
+		
+		table,th,td{
+		border-collapse:collapse;
+		border:1px solid black;
+		}
+		
+		.color-silver{
+			background-color:silver !important;
+		}
+	
+		
+	</style>
+	<div class="Page">
+		<div  nowrap="true" style="top:15px;left:255px;width:300px;height:45px;text-align:center; position:absolute;text-align:center;">
+					<span class="textfont1">الجمهورية الجزائرية الديمقراطية الشعبية</span>
+				<!-- <div width="253px" border="0" cellpadding="0" cellspacing="0"style="text-align:center;">
+					<span class="textfont">SECRETARIAT GENERAL</span>
+				</div>
+				<div width="253px" border="0" cellpadding="0" cellspacing="0"style="text-align:center;">
+					<span class="textfont">DIRECTION DE L'ADMINISTRATION GENERALE</span>
+				</div>
+				<div width="253px" border="0" cellpadding="0" cellspacing="0"style="text-align:center;">
+					<span class="textfont">SERVICE SOCIAL</span>
+				</div> -->
+		</div>
+		
+		<div  nowrap="true" style="top:50px;left:620px;width:150px;height:16px;position:absolute;text-align:center;">
+				<span class="textfont"> رئــــــاسة الجمهـوريـــة</span>
+		</div>
+		<div  nowrap="true" style="top:70px;left:540px;width:300px;height:30px;position:absolute;text-align:center;">
+				<span class="textfont">المستشار لدى رئيس الجمهورية</span>
+		</div>
+		<div  nowrap="true" style="top:90px;left:540px;width:300px;height:30px;position:absolute;text-align:center;">
+				<span class="textfont">المـكلف بالجمعيات الدينية</span>
+		</div>
+		<div  nowrap="true" style="top:110px;left:540px;width:300px;height:30px;position:absolute;text-align:center;">
+				<span class="textfont">رقم/ /م ر ج. م.ج.د/ر ج/</span>
+		</div>
+		
+
+		
+		<div class="textfont2 bordered"  nowrap="true"  style="top:180px;left:250px;width:300px;height:30px;position:absolute;text-align:center;">
+				<span >إستمـارة معلـومات عـن جمعية دينية</span>
+		</div>
+
+		<div   style="top:250px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span class="textfont">التـسمية </span>
+				<span class="textfont3">: {{association.nomAssociations}}</span>
+		</div>
+
+		<div   style="top:300px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span class="textfont"> {{association.categorie}}</span>
+		</div>
+
+
+		<div  class="textfont2  color-silver" nowrap="true" style="top:350px;width:800px;height:30px;position:absolute;text-align:center;">
+				<span  > الـعنـوان الـكــامل و معـلــومات الإتــصـال</span>
+		</div>
+		<div   nowrap="true" style="top:400px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span class="textfont">البـلديـة </span>
+				<span class="textfont3">: {{association.wilaya.LibWilayaAr}}</span>
+		</div>
+		<div  nowrap="true" style="top:400px;left:420px;width:200px;height:20px;position:absolute;text-align:right;">
+				<span class="textfont"> الدائـرة </span>
+				<span class="textfont3">: {{association.wilaya.LibWilayaAr}}</span>
+		</div>
+		<div  nowrap="true" style="top:400px;left:260px;width:200px;height:20px;position:absolute;text-align:right;">
+				<span class="textfont"> الولايـة </span>
+				<span class="textfont3">: {{association.wilaya.LibWilayaAr}}</span>
+		</div>
+		<div  nowrap="true" style="top:400px;left:70px;width:200px;height:20px;position:absolute;text-align:right;">
+				<span class="textfont"> الرمز البريدي </span>
+				<span class="textfont3">: {{association.wilaya.CodePostal}}</span>
+		</div>
+
+
+		<div   nowrap="true" style="top:450px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span class="textfont">الهـاتف </span>
+				<span class="textfont3">: {{association.telephone}}</span>
+		</div>
+		<div   nowrap="true" style="top:450px;left:420px;width:200px;height:20px;position:absolute;text-align:right;">
+				<span class="textfont3">{{association.adresse}}</span>
+				<span class="textfont">:المؤسسة </span>
+		</div>
+		<div   nowrap="true" style="top:450px;left:260px;width:200px;height:20px;position:absolute;text-align:right;">
+				<span class="textfont">المسير </span>
+				<span class="textfont3">: {{association.responsable.nomArabe}} {{association.responsable.prenomArabe}}</span>
+		</div>
+		<div   nowrap="true" style="top:450px;left:70px;width:200px;height:20px;position:absolute;text-align:right;">
+				<span class="textfont3">{{cheyoukhs.nomArabe}} {{cheyoukhs.prenomArabe}} </span>
+				<span class="textfont">:الشيـخ </span>
+		</div>
+
+
+
+		<div   nowrap="true" style="top:500px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span class="textfont3">{{association.email}}</span>
+				<span class="textfont">:البريد الإلكـتروني </span>
+		</div>
+		<div   nowrap="true" style="top:500px;left:160px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span class="textfont3">{{association.adresse_electronique}}</span>
+				<span class="textfont">:الموقع الإلكـتروني</span>
+		</div>
+		<div   nowrap="true" style="top:550px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span class="textfont3">{{association.adresse_facebook}}</span>
+				<span class="textfont">: صفحة فيسبوك </span>
+		</div>
+		<div   nowrap="true" style="top:550px;left:200px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span class="textfont3">{{association.adresse_twitter}}</span>
+				<span class="textfont">: تويـتر </span>
+		</div>
+		<div   nowrap="true" style="top:550px;left:0px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span class="textfont3">{{association.adresse_youtube}}</span>
+				<span class="textfont">: يـوتيوب </span>
+		</div>
+
+
+
+
+		<div  class="textfont2  color-silver" nowrap="true" style="top:600px;width:800px;height:30px;position:absolute;text-align:center;">
+				<span  >التـأسيـس و الإعـتمـاد</span>
+		</div>
+
+		<div   nowrap="true" style="top:650px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span class="textfont3">{{association.datecreation}}</span>
+				<span class="textfont">:تاريخ التـاسيس </span>
+		</div>
+		<div  nowrap="true" style="top:650px;left:300px;width:200px;height:20px;position:absolute;text-align:right;">
+				<span class="textfont">: المؤسس </span>
+
+
+		</div>
+		<div  nowrap="true" style="top:650px;left:100px;width:200px;height:20px;position:absolute;text-align:right;">
+				<span class="textfont"> المشرف الحالي </span>
+				<span class="textfont3">: {{association.responsable.nomArabe}} {{association.responsable.prenomArabe}}</span>
+		</div>
+
+
+
+		<div  class="textfont" nowrap="true" style="top:700px;left:485px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span >:هل يوجد ضريح المؤسس </span>
+		</div>
+		<div  class="textfont borderedcase" nowrap="true" style="top:700px;left:580px;width:25px;height:25px;position:absolute;text-align:right;">
+			{% if association.mausolee %}
+				<span >&#10003;</span>
+			{% endif %}
+		</div>
+		<div   nowrap="true" style="top:700px;left:150px;width:200px;height:20px;position:absolute;text-align:right;">
+				<span class="textfont">مكــانه </span>
+			<span class="textfont3">: {{association.lieumausolee}}</span>
+		</div>
+
+
+		<div  class="textfont" nowrap="true" style="top:750px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span >:الصـفة القانونية </span>
+		</div>
+
+
+		<div  class="textfont" nowrap="true" style="top:800px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span >جمعيـة </span>
+				<span class="textfont3">: {{association.categoriejuridique}}</span>
+		</div>
+		<div  nowrap="true" style="top:800px;left:300px;width:200px;height:20px;position:absolute;text-align:right;">
+				<span class="textfont"> رقم الإعتـماد </span>
+			<span class="textfont3">: {{association.numerodautorisation}}</span>
+		</div>
+		<div  nowrap="true" style="top:800px;left:50px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span class="textfont3">{{association.dateautorisation}}</span>
+				<span class="textfont">: تـاريخ الإعتمـاد </span>
+		</div>
+
+
+		<div  class="textfont " nowrap="true" style="top:850px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span >:مؤسسة عائـلية موثقة </span>
+		</div>
+		<div  class="textfont borderedcase" nowrap="true" style="top:850px;left:600px;width:25px;height:25px;position:absolute;text-align:right;">
+			{% if association.societeFam %}
+				<span >&#10003;</span>
+			{% else %}
+					<span style="left:-210px;position:absolute;text-align:right;">&#10003;</span>
+			{% endif %}
+		</div>
+		<div  class="textfont " nowrap="true" style="top:850px;left:200px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span >: غير موثقة </span>
+		</div>
+		<div  class="textfont borderedcase" nowrap="true" style="top:850px;left:390px;width:25px;height:25px;position:absolute;text-align:right;">
+		</div>
+
+
+		<div  class="textfont2  color-silver" nowrap="true" style="top:900px;width:800px;height:30px;position:absolute;text-align:center;">
+				<span  >الطــريقة التـقليدية</span>
+		</div>
+		<div  nowrap="true" style="top:950px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+				<span class="textfont">الطريقة التقليدية </span>
+				<span class="textfont3">: {{association.methode}}</span>
+		</div>
+
+
+		
+	</div>
+
+
+	<div class="Page">
+
+		<div  class="textfont2  color-silver" nowrap="true" style="top:20px;width:800px;height:30px;position:absolute;text-align:center;">
+				<span  >الـتربيـة الروحيـة</span>
+		</div>
+
+		<div style="left:0px;position:absolute;margin-top:2cm;padding-left:0.5cm;padding-right:1cm;padding-bottom:1cm">
+			<table style="width:750px;height:45px;">
+					<tr class="color-silver" style="text-align: center">
+						<td class="textfont1">
+							<span>ملاحظات</span>
+						</td>
+						<td class="textfont1">
+							<span>أوقاتها</span>
+						</td>
+						<td class="textfont1">
+							<span>أنواع الأوراد المستعملة</span>
+						</td>
+					</tr>
+
+				{% for ward in wards %}
+				<tr class="textfont3" >
+					<td style="text-align: right;padding-left:0.5cm;">{{ward.description}}</td>
+					<td style="text-align: right;">{{ward.temp}}</td>
+					<td  style="text-align: right;padding-left:0.5cm;">{{ward.wird.libwirdAr}}</td>
+				</tr>
+				{% endfor %}
+			</table>
+
+			<div  class="textfont2  color-silver" nowrap="true" style="bottom:-10px;left:0px;width:800px;height:30px;position:absolute;text-align:center;">
+				<span  >النـظام و البرنامج المنتهج</span>
+				<div  class="textfont " nowrap="true" style="bottom:-80px;left:480px;width:300px;height:25px;position:absolute;text-align:right;">
+					<span >:نـظام داخلي </span>
+				</div>
+
+				<div  class="textfont " nowrap="true" style="bottom:-80px;left:500px;width:100px;height:25px;position:absolute;text-align:right;">
+					<span >:نــعـم </span>
+				</div>
+
+				<div  class="textfont borderedcase" nowrap="true" style="bottom:-80px;left:520px;width:25px;height:25px;position:absolute;text-align:right;">
+				{% if association.societeFam %}
+					<span >&#10003;</span>
+				{% else %}
+						<span style="left:-420px;position:absolute;text-align:right;">&#10003;</span>
+				{% endif %}
+				</div>
+
+				<div  class="textfont " nowrap="true" style="bottom:-80px;left:180px;width:300px;height:25px;position:absolute;text-align:right;">
+					<span >(أنظر الملحق رقم 05)</span>
+				</div>
+
+				<div  class="textfont " nowrap="true" style="bottom:-80px;left:100px;width:100px;height:25px;position:absolute;text-align:right;">
+					<span >:لا</span>
+				</div>
+				<div  class="textfont borderedcase" nowrap="true" style="bottom:-80px;left:100px;width:25px;height:25px;position:absolute;text-align:right;">
+				</div>
+
+
+
+				<div  class="textfont " nowrap="true" style="bottom:-140px;left:480px;width:300px;height:25px;position:absolute;text-align:right;">
+					<span >:نـظام داخلي </span>
+				</div>
+
+				<div  class="textfont " nowrap="true" style="bottom:-140px;left:500px;width:100px;height:25px;position:absolute;text-align:right;">
+					<span >:نــعـم </span>
+				</div>
+
+				<div  class="textfont borderedcase" nowrap="true" style="bottom:-140px;left:520px;width:25px;height:25px;position:absolute;text-align:right;">
+				{% if association.societeFam %}
+					<span >&#10003;</span>
+				{% else %}
+						<span style="left:-420px;position:absolute;text-align:right;">&#10003;</span>
+				{% endif %}
+				</div>
+
+				<div  class="textfont " nowrap="true" style="bottom:-140px;left:180px;width:300px;height:25px;position:absolute;text-align:right;">
+					<span >(أنظر الملحق رقم 06)</span>
+				</div>
+
+				<div  class="textfont " nowrap="true" style="bottom:-140px;left:100px;width:100px;height:25px;position:absolute;text-align:right;">
+					<span >:لا</span>
+				</div>
+				<div  class="textfont borderedcase" nowrap="true" style="bottom:-140px;left:100px;width:25px;height:25px;position:absolute;text-align:right;">
+				</div>
+
+
+				<div  class="textfont " nowrap="true" style="bottom:-200px;left:480px;width:300px;height:25px;position:absolute;text-align:right;">
+					<span >?هل يوجد تعليم و برنامج دراسي  </span>
+				</div>
+
+				<div  class="textfont " nowrap="true" style="bottom:-200px;left:400px;width:100px;height:25px;position:absolute;text-align:right;">
+					<span >:نــعـم </span>
+				</div>
+
+				<div  class="textfont borderedcase" nowrap="true" style="bottom:-200px;left:420px;width:25px;height:25px;position:absolute;text-align:right;">
+				{% if association.societeFam %}
+					<span >&#10003;</span>
+				{% else %}
+						<span style="left:-320px;position:absolute;text-align:right;">&#10003;</span>
+				{% endif %}
+				</div>
+
+				<div  class="textfont " nowrap="true" style="bottom:-200px;left:100px;width:300px;height:25px;position:absolute;text-align:right;">
+					<span >(أنظر الملحق رقم 07)</span>
+				</div>
+
+				<div  class="textfont " nowrap="true" style="bottom:-200px;left:100px;width:100px;height:25px;position:absolute;text-align:right;">
+					<span >:لا</span>
+				</div>
+				<div  class="textfont borderedcase" nowrap="true" style="bottom:-200px;left:100px;width:25px;height:25px;position:absolute;text-align:right;">
+				</div>
+			</div>
+
+
+
+
+
+			<div  style="bottom:-320px;left:-20px;width:800px;height:30px;position:relative;text-align:center;">
+				<div class="textfont2  color-silver" nowrap="true"> <span>(مـقـر الجمعية (الزاوية</span> </div>
+
+
+				<div   nowrap="true" style="bottom:-50px;left:580px;width:200px;height:20px;position:absolute;text-align:right;">
+					<span class="textfont">نـوع المقر </span>
+					<span class="textfont3">: {{association.naturesiege}}</span>
+				</div>
+				<div   nowrap="true" style="bottom:-100px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+					<span class="textfont3">{{association.datebuildnv}}</span>
+					<span class="textfont">: سنـة البناء إذا كـان حديثا </span>
+
+				</div>
+				<div   nowrap="true" style="bottom:-150px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+					<span class="textfont3">{{association.datebuildcom}}</span>
+					<span class="textfont">:تـاريخ بداية الأشغال </span>
+
+				</div>
+				<div  nowrap="true" style="bottom:-150px;left:160px;width:300px;height:30px;position:absolute;text-align:right;">
+						<span class="textfont3"> {{association.datebuildfin}}</span>
+						<span class="textfont">: تاريخ نهاية الأشغال </span>
+
+				</div>
+
+
+
+				<div   nowrap="true" style="bottom:-200px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+						<span class="textfont3">{{association.dateinuguration}}</span>
+						<span class="textfont">:تاريخ التدشين </span>
+				</div>
+
+				<div   nowrap="true" style="bottom:-200px;left:160px;width:300px;height:30px;position:absolute;text-align:right;">
+						<span class="textfont">تم التدشين الرسمي من طرف </span>
+						<span class="textfont3">:{{association.nomlanceur}}</span>
+				</div>
+
+				<div   nowrap="true" style="bottom:-250px;left:480px;width:300px;height:30px;position:absolute;text-align:right;">
+					<span class="textfont3">{{association.datetravilcom}}</span>
+					<span class="textfont">:تاريخ بداية العمل</span>
+
+				</div>
+
+				<div nowrap="true" style="bottom:-300px;left:20px;position:relative;">
+					<table nowrap="true" style="width:750px;height:45px;">
+							<tr class="color-silver" style="text-align: center">
+								<td class="textfont1">
+									<span>المساحة غير المبنية التقريبية</span>
+								</td>
+								<td class="textfont1">
+									<span>المساحة المبنية</span>
+								</td>
+								<td class="textfont1">
+									<span>المساحة الكلية للهياكل</span>
+								</td>
+								<td class="textfont1">
+									<span>عـدد الهياكل الفرعية</span>
+								</td>
+
+							</tr>
+
+							{% for ward in wards %}
+							<tr class="textfont3" >
+								<td style="text-align: right;padding-left:0.5cm;"></td>
+								<td style="text-align: right;padding-left:0.5cm;">{{ward.description}}</td>
+								<td style="text-align: right;">{{ward.temp}}</td>
+								<td  style="text-align: right;padding-left:0.5cm;">{{ward.wird.libwirdAr}}</td>
+							</tr>
+							{% endfor %}
+					</table>
+					<div  style="bottom:-30px;left:-20px;width:800px;height:30px;position:relative;text-align:center;">
+						<div class="textfont2  color-silver" nowrap="true"> <span>الأصـل و الفروع</span> </div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-80px;left:385px;width:400px;height:25px;position:absolute;text-align:right;">
+							<span >:هل يوجد للجمعية (الزاوية) فروع عبر الولاية</span>
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-80px;left:280px;width:100px;height:25px;position:absolute;text-align:right;">
+							<span >:نــعـم </span>
+						</div>
+
+						<div  class="textfont borderedcase" nowrap="true" style="bottom:-80px;left:310px;width:25px;height:25px;position:absolute;text-align:right;">
+							{% if association.societeFam %}
+								<span >&#10003;</span>
+							{% else %}
+									<span style="left:-260px;position:absolute;text-align:right;">&#10003;</span>
+							{% endif %}
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-80px;left:5px;width:300px;height:25px;position:absolute;text-align:right;">
+							<span >(أنظر الملحق رقم 01)</span>
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-80px;left:10px;width:100px;height:25px;position:absolute;text-align:right;">
+							<span >:لا</span>
+						</div>
+						<div  class="textfont borderedcase" nowrap="true" style="bottom:-80px;left:50px;width:25px;height:25px;position:absolute;text-align:right;"></div>
+
+
+						<div  class="textfont " nowrap="true" style="bottom:-140px;left:385px;width:400px;height:25px;position:absolute;text-align:right;">
+							<span >:هل يوجد للجمعية (الزاوية) فروع عبر الوطن</span>
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-140px;left:280px;width:100px;height:25px;position:absolute;text-align:right;">
+							<span >:نــعـم </span>
+						</div>
+
+						<div  class="textfont borderedcase" nowrap="true" style="bottom:-140px;left:310px;width:25px;height:25px;position:absolute;text-align:right;">
+							{% if association.societeFam %}
+								<span >&#10003;</span>
+							{% else %}
+									<span style="left:-260px;position:absolute;text-align:right;">&#10003;</span>
+							{% endif %}
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-140px;left:5px;width:300px;height:25px;position:absolute;text-align:right;">
+							<span >(أنظر الملحق رقم 02)</span>
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-140px;left:10px;width:100px;height:25px;position:absolute;text-align:right;">
+							<span >:لا</span>
+						</div>
+						<div  class="textfont borderedcase" nowrap="true" style="bottom:-140px;left:50px;width:25px;height:25px;position:absolute;text-align:right;"></div>
+
+
+						<div  class="textfont " nowrap="true" style="bottom:-200px;left:385px;width:400px;height:25px;position:absolute;text-align:right;">
+							<span >:هل يوجد للجمعية (الزاوية) فروع عبر العالم</span>
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-200px;left:280px;width:100px;height:25px;position:absolute;text-align:right;">
+							<span >:نــعـم </span>
+						</div>
+
+						<div  class="textfont borderedcase" nowrap="true" style="bottom:-200px;left:310px;width:25px;height:25px;position:absolute;text-align:right;">
+							{% if association.societeFam %}
+								<span >&#10003;</span>
+							{% else %}
+									<span style="left:-260px;position:absolute;text-align:right;">&#10003;</span>
+							{% endif %}
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-200px;left:5px;width:300px;height:25px;position:absolute;text-align:right;">
+							<span >(أنظر الملحق رقم 03)</span>
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-200px;left:10px;width:100px;height:25px;position:absolute;text-align:right;">
+							<span >:لا</span>
+						</div>
+						<div  class="textfont borderedcase" nowrap="true" style="bottom:-200px;left:50px;width:25px;height:25px;position:absolute;text-align:right;"></div>
+
+
+
+						<div  class="textfont " nowrap="true" style="bottom:-260px;left:385px;width:400px;height:25px;position:absolute;text-align:right;">
+							<span >:هل الجمعية (الزاوية) تابعة لجمعية أو طريقة خارج الوطن</span>
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-260px;left:280px;width:100px;height:25px;position:absolute;text-align:right;">
+							<span >:نــعـم </span>
+						</div>
+
+						<div  class="textfont borderedcase" nowrap="true" style="bottom:-260px;left:310px;width:25px;height:25px;position:absolute;text-align:right;">
+							{% if association.societeFam %}
+								<span >&#10003;</span>
+							{% else %}
+									<span style="left:-260px;position:absolute;text-align:right;">&#10003;</span>
+							{% endif %}
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-260px;left:5px;width:300px;height:25px;position:absolute;text-align:right;">
+							<span >(أنظر الملحق رقم 04)</span>
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-260px;left:10px;width:100px;height:25px;position:absolute;text-align:right;">
+							<span >:لا</span>
+						</div>
+						<div  class="textfont borderedcase" nowrap="true" style="bottom:-260px;left:50px;width:25px;height:25px;position:absolute;text-align:right;"></div>
+
+
+					</div>
+					<div  style="bottom:-320px;left:-20px;width:800px;height:30px;position:relative;text-align:center;">
+						<div class="textfont2  color-silver" nowrap="true"> <span>المرافق الأساسية</span> </div>
+					</div>
+
+				</div>
+
+
+
+				<div nowrap="true" style="bottom:-630px;left:20px;position:relative;">
+					<table nowrap="true" style="width:750px;height:45px;">
+							<tr class="color-silver" style="text-align: center">
+								<td class="textfont1">
+									<span>ملاحظات</span>
+								</td>
+								<td class="textfont1">
+									<span>المساحة</span>
+								</td>
+								<td class="textfont1">
+									<span>الوظيفة/العدد</span>
+								</td>
+								<td class="textfont1">
+									<span>المرفق</span>
+								</td>
+
+							</tr>
+
+							{% for acmppr in acmpprs %}
+							<tr class="textfont3" >
+								<td style="text-align: right;padding-left:0.5cm;">{{acmppr.description}}</td>
+								<td style="text-align: right;padding-left:0.5cm;">{{acmppr.surface}}</td>
+								<td style="text-align: right;">{{acmppr.fonction}}</td>
+								<td  style="text-align: right;padding-left:0.5cm;">{{acmppr.accompagnementpr.libacompgAr}}</td>
+							</tr>
+							{% endfor %}
+					</table>
+
+					<div  style="bottom:-30px;left:-20px;width:800px;height:30px;position:relative;text-align:center;">
+						<div class="textfont2  color-silver" nowrap="true"> <span>المشائخ و الأعلام</span> </div>
+						<div   nowrap="true" style="bottom:-30px;left:580px;width:200px;height:20px;position:absolute;text-align:right;">
+							<span class="textfont">:العدد التقريبي لمريدي الزاوية </span>
+						</div>
+					</div>
+				</div>
+
+
+				<div nowrap="true" style="bottom:-700px;left:20px;position:relative;">
+					<table nowrap="true" style="width:750px;height:45px;">
+							<tr class="color-silver" style="text-align: center">
+								<td class="textfont1">
+									<span>تعريف موجز عنه</span>
+								</td>
+								<td class="textfont1">
+									<span>إسم الشيـخ</span>
+								</td>
+							</tr>
+
+							{% for chaykh in chaykhs %}
+							<tr class="textfont3" >
+								<td style="text-align: right;">{{chaykh.description}}</td>
+								<td  style="text-align: right;padding-left:0.5cm;">{{chaykh.chikh.nomArabe}} {{chaykh.chikh.prenomArabe}}</td>
+							</tr>
+							{% endfor %}
+					</table>
+
+					<div  style="bottom:-30px;left:-20px;width:800px;height:30px;position:relative;text-align:center;">
+						<div class="textfont2  color-silver" nowrap="true"> <span>المرافق الثـانوية</span> </div>
+
+					</div>
+				</div>
+
+				<div nowrap="true" style="bottom:-770px;left:20px;position:relative;">
+					<table nowrap="true" style="width:750px;height:45px;">
+							<tr class="color-silver" style="text-align: center">
+								<td class="textfont1">
+									<span>ملاحظات</span>
+								</td>
+								<td class="textfont1">
+									<span>المساحة</span>
+								</td>
+								<td class="textfont1">
+									<span>الوظيفة/العدد</span>
+								</td>
+								<td class="textfont1">
+									<span>المرفق</span>
+								</td>
+
+							</tr>
+
+							{% for acmpsec in acmpsecs %}
+							<tr class="textfont3" >
+								<td style="text-align: right;padding-left:0.5cm;">{{acmpsec.description}}</td>
+								<td style="text-align: right;padding-left:0.5cm;">{{acmpsec.surface}}</td>
+								<td style="text-align: right;">{{acmpsec.fonction}}</td>
+								<td  style="text-align: right;padding-left:0.5cm;">{{acmpsec.accompagnementsec.libacompgsecAr}}</td>
+							</tr>
+							{% endfor %}
+					</table>
+
+					<div  style="bottom:-30px;left:-20px;width:800px;height:30px;position:relative;text-align:center;">
+						<div class="textfont2  color-silver" nowrap="true"> <span>التجهيزات</span> </div>
+
+					</div>
+				</div>
+
+				<div nowrap="true" style="bottom:-840px;left:20px;position:relative;">
+					<table nowrap="true" style="width:750px;height:45px;">
+							<tr class="color-silver" style="text-align: center">
+								<td class="textfont1">
+									<span>ملاحظات</span>
+								</td>
+								<td class="textfont1">
+									<span>لا</span>
+								</td>
+								<td class="textfont1">
+									<span>نــعم</span>
+								</td>
+								<td class="textfont1">
+									<span>المرفق</span>
+								</td>
+
+							</tr>
+
+							{% for equip in equips %}
+							<tr class="textfont3" >
+								<td style="text-align: right;padding-left:0.5cm;">{{equip.description}}</td>
+								<td style="text-align: right;padding-left:0.5cm;">{{equip.presence}}</td>
+								<td style="text-align: right;">{{equip.presence}}</td>
+								<td  style="text-align: right;padding-left:0.5cm;">{{equip.equipement.equipementlibAr}}</td>
+							</tr>
+							{% endfor %}
+					</table>
+
+					<div  style="bottom:-30px;left:-20px;width:800px;height:30px;position:relative;text-align:center;">
+						<div class="textfont2  color-silver" nowrap="true"> <span>المساعدات المالية</span> </div>
+					</div>
+
+					<div  style="bottom:-30px;left:-20px;width:800px;height:30px;position:relative;text-align:center;">
+
+						<div  class="textfont " nowrap="true" style="bottom:-30px;left:385px;width:400px;height:25px;position:relative;text-align:right;">
+							<span >تمويل الزاوية ظرفي:</span>
+							{% for assist in assists %}
+							<span class="textfont3">,{{assist.assistance.assistancelibAr}}</span>
+							{% endfor %}
+
+						</div>
+
+
+						<div  class="textfont " nowrap="true" style="bottom:-90px;left:385px;width:400px;height:25px;position:absolute;text-align:right;">
+							<span >:تمويل الزاوية دائم</span>
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-150px;left:385px;width:400px;height:25px;position:absolute;text-align:right;">
+							<span >:المريدون</span>
+						</div>
+
+						<div  class="textfont " nowrap="true" style="bottom:-150px;left:280px;width:100px;height:25px;position:absolute;text-align:right;">
+							<span >:نــعـم </span>
+						</div>
+
+						<div  class="textfont borderedcase" nowrap="true" style="bottom:-150px;left:310px;width:25px;height:25px;position:absolute;text-align:right;">
+							{% if assist.societeFam %}
+								<span >&#10003;</span>
+
+							{% endif %}
+						</div>
+
+
+						<div  class="textfont " nowrap="true" style="bottom:-210px;left:385px;width:400px;height:25px;position:absolute;text-align:right;">
+							<span >:مصادر تمويل أخرى</span>
+						</div>
+
+
+
+					</div>
+
+					<div  style="bottom:-260px;left:-20px;width:800px;height:30px;position:relative;text-align:center;">
+						<div class="textfont2  color-silver" nowrap="true"> <span>الأملاك الوقفية</span> </div>
+					</div>
+
+				</div>
+
+				<div nowrap="true" style="bottom:-1130px;left:20px;position:relative;">
+					<table nowrap="true" style="width:750px;height:45px;">
+							<tr class="color-silver" style="text-align: center">
+								<td class="textfont1">
+									<span>ملاحظات</span>
+								</td>
+								<td class="textfont1">
+									<span>ليست مستغلة</span>
+								</td>
+								<td class="textfont1">
+									<span>مستغلة</span>
+								</td>
+								<td class="textfont1">
+									<span>الأملاك</span>
+								</td>
+
+							</tr>
+
+							{% for propr in proprs %}
+							<tr class="textfont3" >
+								<td style="text-align: right;padding-left:0.5cm;">{{propr.description}}</td>
+								<td style="text-align: right;padding-left:0.5cm;">{{propr.presence}}</td>
+								<td style="text-align: right;">{{propr.presence}}</td>
+								<td  style="text-align: right;padding-left:0.5cm;">{{propr.propriete.proprietelibAr}}</td>
+							</tr>
+							{% endfor %}
+					</table>
+
+					<div  style="bottom:-30px;left:-20px;width:800px;height:30px;position:relative;text-align:center;">
+						<div class="textfont2  color-silver" nowrap="true"> <span>التـأطير</span> </div>
+
+					</div>
+				</div>
+
+				<div nowrap="true" style="bottom:-1200px;left:20px;position:relative;">
+					<table nowrap="true" style="width:750px;height:45px;">
+							<tr class="color-silver" style="text-align: center">
+								<td class="textfont1">
+									<span>ملاحظات</span>
+								</td>
+								<td class="textfont1">
+									<span>العدد</span>
+								</td>
+								<td class="textfont1">
+									<span>الصنف</span>
+								</td>
+
+							</tr>
+
+							{% for ctgr in ctgrs %}
+							<tr class="textfont3" >
+								<td style="text-align: right;padding-left:0.5cm;">{{ctgr.description}}</td>
+								<td style="text-align: right;">{{ctgr.nombre}}</td>
+								<td  style="text-align: right;padding-left:0.5cm;">{{ctgr.categorie.CategorielibAr}}</td>
+							</tr>
+							{% endfor %}
+					</table>
+
+					<div  style="bottom:-30px;left:-20px;width:800px;height:30px;position:relative;text-align:center;">
+						<div class="textfont2  color-silver" nowrap="true"> <span>الوظائف التي تنشطها الجمعية حاليا</span> </div>
+
+					</div>
+				</div>
+
+				<div nowrap="true" style="bottom:-1270px;left:20px;position:relative;">
+					<table nowrap="true" style="width:750px;height:45px;">
+							<tr class="color-silver" style="text-align: center">
+								<td class="textfont1">
+									<span>ملاحظات</span>
+								</td>
+								<td class="textfont1">
+									<span>نعم/لا</span>
+								</td>
+								<td class="textfont1">
+									<span>الوظيفة</span>
+								</td>
+
+
+							</tr>
+
+							{% for fct in fcts %}
+							<tr class="textfont3" >
+								<td style="text-align: right;padding-left:0.5cm;">{{fct.description}}</td>
+								<td style="text-align: right;">{{fct.presence}}</td>
+								<td  style="text-align: right;padding-left:0.5cm;">{{fct.fonction.fonctionslibAr}}</td>
+							</tr>
+							{% endfor %}
+					</table>
+
+					<div  style="bottom:-30px;left:-20px;width:800px;height:30px;position:relative;text-align:center;">
+						<div class="textfont2  color-silver" nowrap="true"> <span>إحياء المناسبات الدينية و الوطنية</span> </div>
+
+					</div>
+				</div>
+
+				<div nowrap="true" style="bottom:-1340px;left:20px;position:relative;">
+					<table nowrap="true" style="width:750px;height:45px;">
+							<tr class="color-silver" style="text-align: center">
+								<td class="textfont1">
+									<span>ملاحظات</span>
+								</td>
+								<td class="textfont1">
+									<span>نوع النشاط</span>
+								</td>
+								<td class="textfont1">
+									<span>الموسم</span>
+								</td>
+
+							</tr>
+
+							{% for saison in saisons %}
+							<tr class="textfont3" >
+								<td style="text-align: right;padding-left:0.5cm;">{{saison.description}}</td>
+								<td style="text-align: right;">{{saison.categactv}}</td>
+								<td  style="text-align: right;padding-left:0.5cm;">{{saison.saison.saisonslibAr}}</td>
+							</tr>
+							{% endfor %}
+					</table>
+
+				</div>
+
+
+
+
+
+
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+		</div>
+
+	</div>
+
+
+
+
+
+
+
+
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+<!--	<script src="{% static 'js/jquery.min.js' %}" ></script>-->
+<!--	<script src="{% static ' js/popper.min.js' %} " ></script>-->
+<!--	<script src="{% static 'js/bootstrap.min.js' %}"></script>-->
+</body>
+
+</html>

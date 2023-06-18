@@ -1,0 +1,19 @@
+body.login #container {
+    width: 60%;
+}
+
+body.login #content {
+    padding: 0;
+}
+
+body.login #content-main {
+
+}
+
+body.login {
+    background: #354052;
+    padding: 20vh 30px 30px 30px;
+}
+br.clear{
+    display:none;
+}

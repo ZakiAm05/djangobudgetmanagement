@@ -1,0 +1,196 @@
+
+{% extends "admin/base.html" %}
+
+{% load static %}
+
+{% block title %}{{ tite }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        <img src="{% static "logo.png" %}" alt="MDN" width="100%" />
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block footer %}
+<div id="footer">
+
+</div>
+{% endblock %}
+{% block extrahead %}
+    <style>
+        :root{
+        --primary:#2B333D;
+        }
+        body {
+            font-family:Helvetica,sans-serif !important;
+            font-size: 16px;
+            color:black;
+            background-color:white;
+        }
+
+         div#container div#content div.dashboard-container div.dashboard-column-wrapper div.dashboard-item div.dashboard-item-header{
+             background-color:var(--primary);
+             border-radius:5px;
+
+         }
+          div#container div#content div.dashboard-container div.dashboard-column-wrapper div.dashboard-item div.dashboard-item-header span{
+             color:#ffbb00 !important;
+         }
+
+        .icon-edit,.icon-cross,.icon-arrow-up,.icon-arrow-down,.icon-arrow-right{color:var(--primary);}
+
+        /*customization of the add button*/
+        div#container div#content ul.object-tools a.addlink{
+            background-color:var(--primary);
+            color:white;
+            box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+
+        div#changelist form#changelist-form div.results table#result_list thead th{
+           background-color:var(--primary);
+
+        }
+        div#changelist form#changelist-form div.results table#result_list thead th div.text a{
+           color:white;
+           font-weight: medium;
+		   font-size: 15px !important;
+        }
+        div#changelist form#changelist-form div.results table#result_list thead th div.text span label{
+           color:white;
+        }
+
+        div#changelist form#changelist-form div.results table#result_list tbody tr th{font-size: 14px !important;}
+
+        div#container div.breadcrumbs a{color:var(--primary);}
+
+        div#container div.dashboard-tools form#add-dashboard-module-form span.select2 span.selection span.select2-selection{border:solid 1px var(--primary);}
+
+        div#container div.dashboard-tools form#add-dashboard-module-form span.select2 span.selection span.select2-selection__rendered{color:var(--primary);font-weight:bold;}
+
+        div#container div.dashboard-tools form#add-dashboard-module-form  a.add-dashboard-link{color:var(--primary);border:solid 1px var(--primary);}
+
+        div#container div#header ul.sidebar-dependent{border:solid 1px var(--primary);}
+
+        div#content div#content-main div.module form#changelist-form div.changelist-footer {
+            background-color:#F2F4F4;
+            padding-left:10px;
+            padding-right:10px;
+            border-radius:5px;
+
+            box-shadow:0 5px 10px 0px rgba(0,0,0,0.2);
+        }
+
+        form#changelist-search span.select2 span.selection span.select2-selection__rendered{color:var(--primary);border:solid 1px var(--primary);border-radius:5px;box-sizing:border-box;}
+
+        form#changelist-search input#searchbar {border:solid 1px var(--primary);border-radius:5px;box-sizing:border-box;margin-top:1px;}
+        form#changelist-search input#searchbar:focus {border:none;}
+
+        span.select2-selection__arrow {color:var(--primary);}
+
+        div#container div.breadcrumbs{background-color:#F2F4F4;box-shadow:0 5px 10px 0px rgba(0,0,0,0.2);}
+        div#container span.sidebar-container-toggle {background-color:#F2F4F4;box-shadow:0px 0px 0px rgba(0,0,0,0.2);margin-top:1px;}
+        div#content div.dashboard-container  div.dashboard-column-wrapper div.ui-droppable div.dashboard-item-content ul li{font-size: 16px;}
+
+        /*customization of the tabs inline header*/
+        div#container div#content div#content-main ul.changeform-tabs{border-bottom:solid 1.5px #dee2e6;}
+
+
+        div#container div#content div#content-main ul.changeform-tabs li.changeform-tabs-item  a{color:var(--primary);}
+
+
+        div#container div#content div#content-main ul.changeform-tabs li.selected a{background-color:white;border:solid 1.5px #dee2e6;border-radius:4px 4px 0px 0px;}
+
+        div#container div#content div#content-main ul.changeform-tabs li.changeform-tabs-item a{border-bottom:none;}
+
+        /*autocomplete filed customization */
+        div.form-row  span.select2-selection--multiple ul.select2-selection__rendered li.select2-search--inline input.select2-search__field{width:20rem !important;}
+
+        /* customization of button historique*/
+
+        div#container div#content div#content-main ul.object-tools li a.historylink
+        {
+            background-color:var(--primary);
+            color:white;
+            box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+
+        /*customization of the next and back list*/
+
+        div#container div#content div#content-main div.changeform-navigation a {color:var(--primary);}
+
+        /*customization of field borders*/
+        div#content div#content-main form fieldset.module div.form-row input{border:solid 1.25px var(--primary);color:var(--primary);}
+        div#content div#content-main form fieldset.module div.form-row input:focus{border:none;}
+
+         /*customization of date and time fields borders*/
+        div#content div#content-main form fieldset.module div.form-row a.vDateField-link ,div#content div#content-main form fieldset.module div.form-row  a.vTimeField-link {border:solid 1.25px var(--primary);border-radius:4px;}
+
+        /*customization of select fields borders*/
+        div#content div#content-main form fieldset.module div.form-row input.select2-search__field{border:none;}
+        div#content div#content-main form fieldset.module div.form-row span.select2-container{border:solid 1.25px var(--primary);border-radius:4px;}
+        div#content div#content-main form fieldset.module div.form-row span.select2-container:focus{border:none;}
+
+        /*customization of textfield  borders*/
+        div#content div#content-main form fieldset.module div.form-row textarea {border:solid 1.25px var(--primary);}
+        div#content div#content-main form fieldset.module div.form-row textarea:focus {border:none;}
+
+
+        /*customization of add and update button of fields color*/
+        div#content div#content-main form fieldset.module div.form-row span.related-widget-wrapper-icon {color:var(--primary);}
+
+        /*customization of the form text-color */
+        div#content div#content-main form fieldset.module div.form-row{color:#566573;}
+
+
+        /*customization of the dialog bullinfo*/
+        body.menu-pinned div.ui-dialog {background-color:#0f0f12;border:solid 1px #0f0f12; }
+        body.menu-pinned div.ui-dialog div.ui-dialog-titlebar{background-color:var(--primary);}
+        body.menu-pinned div.ui-dialog div.ui-dialog-buttonpane{background-color:var(--primary);}
+        body.menu-pinned div.ui-dialog div.ui-dialog-buttonpane div.ui-dialog-buttonset button{background-color:#ffbb00;}
+        body.menu-pinned div.ui-dialog div.ui-dialog-buttonpane div.ui-dialog-buttonset button span{color:#0f0f12;}
+
+        /*customization of inline button*/
+        div#content div#content-main div.module form#changelist-form div.results input[value="Approver"]{background-color:green;color:white;}
+
+        div#content div#content-main div.module form#changelist-form div.results input[value="Refuser"]{background-color:red;color:white;}
+
+
+
+         /*customization of inline button*/
+        div#content div#content-main div.module form#changelist-form div.results input[value="Valider"]{background-color:green;color:white;}
+
+        div#content div#content-main div.module form#changelist-form div.results input[value="Annuler"]{background-color:red;color:white;}
+
+
+        ul.messagelist li.success{background-color:#96E15C;}
+
+
+        div.sidebar-popup-container div.scrollable::-webkit-scrollbar {overflow:hidden;}
+
+        div.sidebar-popup-container div.scrollable {background-color:#333C47;}
+
+        ul.sidebar-popup-list li.sidebar-popup-list-item a.sidebar-popup-list-item-link{color:white;}
+
+        div.sidebar-popup-title{color:white;font-size:16px;}
+
+
+
+        ul.sidebar-popup-list li.sidebar-popup-list-item:hover {background-color:#5AADFF !important;border-radius:5px;}
+
+        div.dashboard-column-wrapper div.dashboard-column div.dashboard-item div.dashboard-item-content ul li a{color:#566573;}
+
+        div.dashboard-column-wrapper div.dashboard-column div.dashboard-item div.dashboard-item-content ul li a:hover {color:#5AADFF;font-size:18px;}
+
+
+
+
+
+
+
+
+    </style>
+{% endblock %}
