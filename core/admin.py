@@ -12,12 +12,31 @@ admin.site.site_header="Gestion de magasin"
 admin.site.site_title="Gestion de magasin"
 admin.site.index_title="Gestion de magasin"
 
+class EntreeStockGlobalinline(admin.TabularInline):
+    model = EntreeStockGlobal
+    extra = 0
+@admin.register(Magasin)
+class MagasinAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
+    list_display = ["refmagasin","libmagasin","lieumagasin"]
+    search_fields = ("refmagasin","libmagasin","lieumagasin",)
+@admin.register(Article)
+class ArticleAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
+    list_display = ["codearticle","nomarticle"]
+    search_fields = ("codearticle","nomarticle",)
+@admin.register(Fournissuer)
+class ArticleAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
+    list_display = ["numfournisseur","nomfournisseur"]
+    search_fields = ("numfournisseur","nomfournisseur",)
 
-
-@admin.register(Budget)
-class PointHautAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
-    list_display = ["dateBudget", "depense", "recette"]
-    search_fields = ("dateBudget","depense","recette",)
+@admin.register(StockGlobal)
+class StockGlobalAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
+    list_display = ["libellestockglobal","quantiteglobalstock"]
+    search_fields = ("libellestockglobal","article__nomarticle",)
+    inlines = (EntreeStockGlobalinline,)
+@admin.register(BudgetJournalier)
+class BudgetJournalierAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
+    list_display = ["datejournee", "depenseglobal", "recetteglobal"]
+    search_fields = ("datejournee","depenseglobal","recetteglobal",)
     readonly_fields = ('creepar', 'modifierpar',)
     actions = ["print_budget",]
 
