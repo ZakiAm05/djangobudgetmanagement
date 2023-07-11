@@ -15,6 +15,16 @@ admin.site.index_title="Gestion de magasin"
 class EntreeStockGlobalinline(admin.TabularInline):
     model = EntreeStockGlobal
     extra = 0
+
+class EntreeStockMagasininline(admin.TabularInline):
+    model = EntreeStockMagasin
+    extra = 0
+class RecetteMagasinJrinline(admin.TabularInline):
+    model = RecetteMagasinJr
+    extra = 0
+class DepenseMagasinJrinline(admin.TabularInline):
+    model = DepenseMagasinJr
+    extra = 0
 @admin.register(Magasin)
 class MagasinAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
     list_display = ["refmagasin","libmagasin","lieumagasin"]
@@ -31,13 +41,21 @@ class ArticleAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
 @admin.register(StockGlobal)
 class StockGlobalAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
     list_display = ["libellestockglobal","quantiteglobalstock"]
-    search_fields = ("libellestockglobal","article__nomarticle",)
+    search_fields = ("quantiteglobalstock","article__nomarticle",)
+    readonly_fields = ('quantiteglobalstock',)
     inlines = (EntreeStockGlobalinline,)
+
+@admin.register(StockMagasin)
+class StockMagasinAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
+    list_display = ["libellestockmagasin","quantitemagasin"]
+    search_fields = ("libellestockmagasin","article__nomarticle",)
+    inlines = (EntreeStockMagasininline,)
 @admin.register(BudgetJournalier)
 class BudgetJournalierAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
     list_display = ["datejournee", "depenseglobal", "recetteglobal"]
     search_fields = ("datejournee","depenseglobal","recetteglobal",)
     readonly_fields = ('creepar', 'modifierpar',)
+    inlines = (RecetteMagasinJrinline,DepenseMagasinJrinline,)
     actions = ["print_budget",]
 
     def print_budget(self, request, queryset):
