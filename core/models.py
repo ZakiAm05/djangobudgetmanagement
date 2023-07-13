@@ -62,7 +62,6 @@ class EntreeStockGlobal(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-
         # Update quantiteglobalstock in StockGlobal
         stock_global = self.id_stockglobal
         stock_global.quantiteglobalstock = stock_global.quantiteglobalstock + self.quantiteentree
@@ -95,23 +94,8 @@ class EntreeStockMagasin(models.Model):
         stock_magasin = self.id_stockmagasin
         stock_magasin.quantitemagasin = stock_magasin.quantitemagasin - self.quantiteentredmg
         stock_magasin.save()
-
         super().delete(*args, **kwargs)
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
 
-        # Update quantiteglobalstock in StockGlobal
-        stock_magasin = self.id_stockmagasin
-        stock_global = StockGlobal.objects.get(article=stock_magasin.article)
-        new_quantitemagasin = stock_magasin.quantitemagasin + self.quantiteentredmg
-        stock_magasin.quantitemagasin = new_quantitemagasin
-        stock_magasin.save()
-
-        if self.quantiteentredmg > stock_global.quantiteglobalstock:
-            messages.error("Insufficient global stock quantity. Cannot save the entry.")
-        else:
-            stock_global.quantiteglobalstock = stock_global.quantiteglobalstock - self.quantiteentredmg
-            stock_global.save()
 
 #############################################################################################################################################
 class BudgetJournalier(models.Model):

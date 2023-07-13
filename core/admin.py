@@ -42,7 +42,7 @@ class ArticleAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
 class StockGlobalAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
     list_display = ["libellestockglobal","quantiteglobalstock"]
     search_fields = ("quantiteglobalstock","article__nomarticle",)
-    readonly_fields = ('quantiteglobalstock',)
+    #readonly_fields = ('quantiteglobalstock',)
     inlines = (EntreeStockGlobalinline,)
 
 @admin.register(StockMagasin)
@@ -50,6 +50,32 @@ class StockMagasinAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
     list_display = ["libellestockmagasin","quantitemagasin"]
     search_fields = ("libellestockmagasin","article__nomarticle",)
     inlines = (EntreeStockMagasininline,)
+
+
+    def save_formset(self, request, form, formset, change):
+        instances = formset.save(commit=False)
+        for obj in formset.deleted_objects:
+            obj.delete()
+        if len(instances) > 0:
+            last_instance = instances[-1]
+            stock_global = StockGlobal.objects.get(article=last_instance.id_stockmagasin.article)
+            stock_magasin = last_instance.id_stockmagasin
+            if last_instance.quantiteentredmg  > stock_global.quantiteglobalstock :
+                messages.set_level(request, messages.ERROR)
+                messages.error(request, "Insufficient global stock quantity.Please Ckeck your Global Stock article quantity !")
+            else:
+                new_quantitemagasin = last_instance.id_stockmagasin.quantitemagasin + last_instance.quantiteentredmg
+                stock_magasin.quantitemagasin = new_quantitemagasin
+                stock_magasin.save()
+                stock_global.quantiteglobalstock = stock_global.quantiteglobalstock - last_instance.quantiteentredmg
+                stock_global.save()
+                last_instance.save()
+
+        formset.save_m2m()
+
+
+
+##############################################################################################
 @admin.register(BudgetJournalier)
 class BudgetJournalierAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
     list_display = ["datejournee", "depenseglobal", "recetteglobal"]
