@@ -1,7 +1,7 @@
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save ,post_delete
 from django.dispatch import receiver
-from django.contrib import messages
+from decimal import Decimal
 class Magasin(models.Model):
     refmagasin = models.CharField(db_column='RefMagasin', max_length=250, blank=True, null=True,verbose_name="Référence Magasin Article")
     libmagasin=models.CharField(db_column='LibelleMagasin', max_length=250, blank=True, null=True,verbose_name="Libellé Magasin")
@@ -32,7 +32,7 @@ class Fournissuer(models.Model):
         return "{}".format(self.nomfournisseur)
     class Meta:
         verbose_name="Fournisseur"
-
+########################################################################################################################################
 class StockGlobal(models.Model):
     article = models.ForeignKey(to='Article',on_delete=models.CASCADE,db_column='ArticleInStock', blank=True, null=True,verbose_name="Article")
     quantiteglobalstock = models.IntegerField(db_column='QteGlobalStock', blank=True, null=True)
@@ -101,11 +101,29 @@ class EntreeStockMagasin(models.Model):
 class BudgetJournalier(models.Model):
     magasin=models.ForeignKey(to='Magasin',on_delete=models.CASCADE,db_column='MagasinInBJ', blank=True, null=True,related_name='linked_magasins')
     datejournee=models.DateField(db_column='DateJournee',verbose_name="Date de la journee")
-    depenseglobal=models.IntegerField(db_column='Depense',blank=True, null=True)
-    recetteglobal=models.IntegerField(db_column='Recette',blank=True, null=True)
+    depenseglobal=models.FloatField(db_column='Depense',blank=True, null=True)
+    recetteglobal=models.FloatField(db_column='Recette',blank=True, null=True)
     reamrque = models.TextField(db_column='Remarque', null=True, blank=True)
     creepar = models.CharField(db_column='CreateurEtat', max_length=100, blank=True, null=True,verbose_name="Createur de Budget journalier'")
     modifierpar = models.CharField(db_column='QuiModifEtat', max_length=100, blank=True, null=True,verbose_name="Modificateur de Budget journalier")
+
+    def get_RecttesGlobal(self):
+        Montant = 0
+        outarticles=self.linked_budgetsjrs.all()
+        for article in outarticles:
+            if article.id_article.prixunitaire and article.quantitout:
+                Montant += round(Decimal(article.id_article.prixunitaire) * article.quantitout, 2)
+
+        return Montant
+
+    def get_DepensesGlobal(self):
+        Depense = 0
+        outdepenses=self.linked_budgets.all()
+        for depense in outdepenses:
+            if depense.montantdepense:
+                Depense += round(Decimal (depense.montantdepense), 2)
+        print(Depense)
+        return Depense
 
     def __str__(self):
         return "{}".format(self.datejournee)
@@ -118,7 +136,7 @@ class RecetteMagasinJr(models.Model):
     id_budgetj=models.ForeignKey(to='BudgetJournalier',on_delete=models.CASCADE,db_column='id_budgetJ', blank=True, null=True,related_name='linked_budgetsjrs')
     id_article=models.ForeignKey(to='Article',on_delete=models.CASCADE,db_column='id_articleBJ', blank=True, null=True,related_name='linked_articles',verbose_name="article")
     quantitout=models.IntegerField(db_column='QteOuted',blank=True, null=True,verbose_name="Quantite Vendu")
-    montantrecette=models.IntegerField(db_column='MontantArticle',blank=True, null=True,verbose_name="Montant de recette par article")
+    montantrecette=models.FloatField(db_column='MontantArticle',blank=True, null=True,verbose_name="Montant de recette par article")
 
     class Meta:
         verbose_name="Recettes de Magasin"
@@ -129,21 +147,24 @@ class RecetteMagasinJr(models.Model):
 
 
 class DepenseMagasinJr(models.Model):
-    id_budgetj=models.ForeignKey(to='BudgetJournalier',on_delete=models.CASCADE,db_column='id_budgetJ', blank=True, null=True,related_name='linked_budgets')
+    id_budgetjr=models.ForeignKey(to='BudgetJournalier',on_delete=models.CASCADE,db_column='id_budgetJ', blank=True, null=True,related_name='linked_budgets')
     naturedepense=models.TextField(db_column='NatureDepense', null=True, blank=True,verbose_name="Nature de depenses")
-    montantdepense=models.IntegerField(db_column='MontantDepense',blank=True, null=True,verbose_name="Montant de depenses")
+    montantdepense=models.FloatField(db_column='MontantDepense',blank=True, null=True,verbose_name="Montant de depenses")
 
     class Meta:
         verbose_name="Depenses de Magasin"
         db_table = 'Depenses_Magasin'
     def save(self,*args,**kwargs):
-        if self.id_budgetj and self.id_budgetj.pk:
+        if self.id_budgetjr and self.id_budgetjr.pk:
             super().save(*args, **kwargs)
 
 
 
 
 ########################################################################################################################
+
+
+
 @receiver(post_save, sender=StockGlobal)
 def initialize_quantiteglobalstock(sender, instance, created, **kwargs):
     if created:
@@ -154,3 +175,30 @@ def initialize_quantitestockmagasin(sender, instance, created, **kwargs):
     if created:
         instance.quantitemagasin = 0
         instance.save()
+
+@receiver(post_save,sender=BudgetJournalier)
+@receiver(post_save,sender=RecetteMagasinJr)
+@receiver(post_delete,sender=RecetteMagasinJr)
+def update_montants(sender,instance,**kwargs):
+
+    if sender.__name__ == "BudgetJournalier":
+        recetteglobalnew = instance.get_RecttesGlobal()
+        depenseglobalnew = instance.get_DepensesGlobal()
+        BudgetJournalier.objects.filter(pk=instance.pk).update(recetteglobal=recetteglobalnew,depenseglobal=depenseglobalnew)
+    else :
+        recetteglobalnew = instance.id_budgetj.get_RecttesGlobal()
+        depenseglobalnew = instance.id_budgetj.get_DepensesGlobal()
+        BudgetJournalier.objects.filter(pk=instance.id_budgetj.pk).update(recetteglobal=recetteglobalnew)
+        BudgetJournalier.objects.filter(pk=instance.id_budgetj.pk).update(depenseglobal=depenseglobalnew)
+
+
+@receiver(post_save,sender=DepenseMagasinJr)
+@receiver(post_delete,sender=DepenseMagasinJr)
+def update_depenses(sender,instance,**kwargs):
+
+    if sender.__name__ == "BudgetJournalier":
+        depenseglobalnew = instance.get_DepensesGlobal()
+        BudgetJournalier.objects.filter(pk=instance.pk).update(depenseglobal=depenseglobalnew)
+    else :
+        depenseglobalnew = instance.id_budgetjr.get_DepensesGlobal()
+        BudgetJournalier.objects.filter(pk=instance.id_budgetjr.pk).update(depenseglobal=depenseglobalnew)
