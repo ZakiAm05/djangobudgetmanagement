@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404
+from datetime import datetime, timedelta
+from django.db.models import Sum
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import authentication,permissions,generics
@@ -6,7 +8,7 @@ from .models import *
 
 
 
-base_url="127.0.0.1:8001"
+base_url="127.0.0.1:8000"
 
 class PointhautsnbrApi(APIView):
     """ Home page for GRH REST-APIS it's alist of apis with détails how to use """
@@ -48,3 +50,29 @@ class PointhautsnbrApi(APIView):
         result['nombres pointhauts']= resultat
 
         return result
+
+
+######################################################################################################################
+class DepenseRecetteChartApi(APIView):
+    def get(self, request, format=None):
+        # Calculate the date range for the last five days
+        today = datetime.now().date()
+        last_five_days = [today - timedelta(days=i) for i in range(5)]
+
+        # Retrieve the depenseglobal and recetteglobal values for the last five days
+        results = BudgetJournalier.objects.filter(datejournee__in=last_five_days) \
+            .values('datejournee') \
+            .annotate(depense=Sum('depenseglobal'), recette=Sum('recetteglobal'))
+
+        # Prepare the data for the chart
+        labels = [result['datejournee'].strftime('%Y-%m-%d') for result in results]
+        depense_data = [result['depense'] for result in results]
+        recette_data = [result['recette'] for result in results]
+
+        # Return the data as a JSON response
+        data = {
+            'labels': labels,
+            'depense': depense_data,
+            'recette': recette_data
+        }
+        return Response(data)

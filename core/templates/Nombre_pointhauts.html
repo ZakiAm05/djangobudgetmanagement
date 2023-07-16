@@ -1,66 +1,58 @@
 <!DOCTYPE html>
 {% load static %}
-<canvas id="myChart4"  style="padding:5px" ></canvas>
+<canvas id="myChart" style="padding: 2px;"></canvas>
 <script src="{% static 'js/chartjs.js' %}"></script>
 <script src="{% static 'js/jquery.js' %}"></script>
 <script>
-$(document).ready(function(){
-
-    api_url="/budget/apiis?title=nombre_debudgets"
+$(document).ready(function() {
+    api_url = "/budget/apiis?title=depense_recette";
     $.ajax({
-        method:"GET",
-        url:api_url,
-        success:function(data){
-            setPointhautNumber(Object.keys(data),Object.values(data));
+        method: "GET",
+        url: api_url,
+        success: function(data) {
+            setChart(data.labels, data.depense, data.recette);
         },
-        error:function(error_data){
-            console.log("error");
+        error: function(error_data) {
+            console.log("Error");
             console.log(error_data);
         }
     });
 
-
-    function setPointhautNumber(labels,data){
-
-            var ctx =$('#myChart4');
-            var myChart4 = new Chart(ctx, {
-                type: 'horizontalBar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label:'Nombres point hauts ',
+    function setChart(labels, depense, recette) {
+        var ctx = $("#myChart");
+        var myChart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Dépense Global",
                         backgroundColor: "#FFB6C1",
-                        borderColor: "#c00",
                         borderWidth: 1,
                         hoverBackgroundColor: "#59597F",
-                        data: data
-
-                    }]
-                },
-                options:
-                {
-                    scales:{
-                        xAxes:[{
-                            ticks:{
-                                stepSize: 1,
-                                beginAtZero:true
-
-                            }
-
-                            }],
-                        yAxes:[{
-                            barPercentage: 0.5,
-                            ticks:{
-                                beginAtZero:true
-                            }
-
-                        }]
-
+                        data: depense
+                    },
+                    {
+                        label: "Recette Global",
+                        backgroundColor: "#ADD8E6",
+                        borderWidth: 1,
+                        hoverBackgroundColor: "#3A5FCD",
+                        data: recette
                     }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [
+                        {
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }
+                    ]
                 }
-            });
+            }
+        });
     }
 });
-
-
 </script>

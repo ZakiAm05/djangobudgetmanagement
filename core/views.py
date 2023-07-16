@@ -6,7 +6,7 @@ from .models import *
 
 
 def etat_budgets(request,id):
-    etatjournalier=Budget.objects.get(pk=id)
+    etatjournalier=BudgetJournalier.objects.get(pk=id)
     # dmd=DemandeAbsence.objects.get(pk=id).prefetch_related('aprovers')
     date=timezone.now().date()
 
