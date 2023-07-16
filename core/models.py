@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save ,post_delete
 from django.dispatch import receiver
 from decimal import Decimal
+from django.db.models import Q
 class Magasin(models.Model):
     refmagasin = models.CharField(db_column='RefMagasin', max_length=250, blank=True, null=True,verbose_name="Référence Magasin Article")
     libmagasin=models.CharField(db_column='LibelleMagasin', max_length=250, blank=True, null=True,verbose_name="Libellé Magasin")

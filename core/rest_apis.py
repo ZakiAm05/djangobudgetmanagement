@@ -43,7 +43,7 @@ class PointhautsnbrApi(APIView):
     def nombre_budgetenreg(self):
         param_args = self.request.query_params
         result={}
-        assos=list(Budget.objects.all())
+        assos=list(BudgetJournalier.objects.all())
         resultat = len(assos)
         result['nombres pointhauts']= resultat
 

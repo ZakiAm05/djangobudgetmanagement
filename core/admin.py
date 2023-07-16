@@ -40,15 +40,32 @@ class ArticleAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
 
 @admin.register(StockGlobal)
 class StockGlobalAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
-    list_display = ["libellestockglobal","quantiteglobalstock"]
-    search_fields = ("quantiteglobalstock","article__nomarticle",)
+    list_display = ["display_article","libellestockglobal","quantiteglobalstock"]
+
+    def display_article(self, obj):
+        return '{}-{}'.format(obj.article.codearticle, obj.article.nomarticle)
+
+    display_article.short_description = 'Article'
+    search_fields = ("quantiteglobalstock","article__nomarticle","article__codearticle",)
     #readonly_fields = ('quantiteglobalstock',)
     inlines = (EntreeStockGlobalinline,)
 
 @admin.register(StockMagasin)
 class StockMagasinAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
-    list_display = ["libellestockmagasin","quantitemagasin"]
-    search_fields = ("libellestockmagasin","article__nomarticle",)
+    #list_display = ["libellestockmagasin","quantitemagasin"]
+    list_display = ("display_magasin",'display_article','libellestockmagasin', 'quantitemagasin',)
+
+
+    def display_magasin(self, obj):
+        return obj.magasin.libmagasin
+
+    display_magasin.short_description = 'Magasin'
+    def display_article(self, obj):
+        return '{}-{}'.format(obj.article.codearticle, obj.article.nomarticle)
+
+    display_article.short_description = 'Article'
+
+    search_fields = ("libellestockmagasin","article__nomarticle","article__codearticle","magasin__libmagasin",)
     inlines = (EntreeStockMagasininline,)
 
 
@@ -103,6 +120,13 @@ class BudgetJournalierAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
         for instance in instances:
             if isinstance(instance, RecetteMagasinJr):
                 instance.montantrecette = round(Decimal(instance.id_article.prixunitaire) * instance.quantitout, 2)
+                stock_magasin = StockMagasin.objects.get(Q(article=instance.id_article) & Q(magasin=instance.id_budgetj.magasin))
+                if instance.quantitout > stock_magasin.quantitemagasin:
+                    messages.set_level(request, messages.ERROR)
+                    messages.error(request,"Insufficient magasin stock quantity.Please Ckeck your magasin Stock article quantity !")
+                else:
+                    stock_magasin.quantitemagasin = stock_magasin.quantitemagasin - instance.quantitout
+                    stock_magasin.save()
                 instance.save()
             elif isinstance(instance, DepenseMagasinJr):
                 instance.save()
