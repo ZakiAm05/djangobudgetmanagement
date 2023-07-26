@@ -75,6 +75,7 @@ class StockMagasin(models.Model):
     libellestockmagasin = models.CharField(db_column='LibelleMagasin', max_length=250, blank=True, null=True,verbose_name="Libelle de Stock Magasin")
     magasin = models.ForeignKey(to='Magasin', on_delete=models.CASCADE, db_column='MagasinStock', blank=True,null=True, verbose_name="Magasin")
     article = models.ForeignKey(to='Article',on_delete=models.CASCADE,db_column='ArticleInStock', blank=True, null=True,verbose_name="Article")
+    prixvente=models.IntegerField(db_column='PrixVente',blank=True, null=True,verbose_name="Prix de vente")
     quantitemagasin = models.IntegerField(db_column='QteMagasin', blank=True, null=True,verbose_name="Quantite Article Dans Magasin")
 
     def __str__(self):
@@ -110,10 +111,12 @@ class BudgetJournalier(models.Model):
 
     def get_RecttesGlobal(self):
         Montant = 0
+
         outarticles=self.linked_budgetsjrs.all()
         for article in outarticles:
             if article.id_article.prixunitaire and article.quantitout:
-                Montant += round(Decimal(article.id_article.prixunitaire) * article.quantitout, 2)
+                stock_magasin = StockMagasin.objects.get(Q(article=article.id_article) & Q(magasin=self.magasin))
+                Montant += round(Decimal(stock_magasin.prixvente) * article.quantitout, 2)
 
         return Montant
 

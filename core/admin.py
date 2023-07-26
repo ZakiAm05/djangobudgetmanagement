@@ -119,8 +119,8 @@ class BudgetJournalierAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
         instances = formset.save(commit=False)
         for instance in instances:
             if isinstance(instance, RecetteMagasinJr):
-                instance.montantrecette = round(Decimal(instance.id_article.prixunitaire) * instance.quantitout, 2)
                 stock_magasin = StockMagasin.objects.get(Q(article=instance.id_article) & Q(magasin=instance.id_budgetj.magasin))
+                instance.montantrecette = round(Decimal(stock_magasin.prixvente) * instance.quantitout, 2)
                 if instance.quantitout > stock_magasin.quantitemagasin:
                     messages.set_level(request, messages.ERROR)
                     messages.error(request,"Insufficient magasin stock quantity.Please Ckeck your magasin Stock article quantity !")
