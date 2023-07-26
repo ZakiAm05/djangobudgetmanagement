@@ -127,7 +127,7 @@ class BudgetJournalierAdmin(InlineActionsModelAdminMixin,admin.ModelAdmin):
                 else:
                     stock_magasin.quantitemagasin = stock_magasin.quantitemagasin - instance.quantitout
                     stock_magasin.save()
-                instance.save()
+                    instance.save()
             elif isinstance(instance, DepenseMagasinJr):
                 instance.save()
 

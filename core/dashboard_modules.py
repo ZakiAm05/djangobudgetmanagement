@@ -2,9 +2,9 @@ from jet.dashboard.modules import DashboardModule
 
 
 
-class pointhaut_map(DashboardModule):
-    title = "budget par jour"
-    template = './nombre_reliquats.html'
+class continous_recette_depense(DashboardModule):
+    title = "recette et depense derneier 5 jour continue"
+    template = './recettedepensecontinu.html'
     grid="l6"
 
 class Nombre_budgetenreg(DashboardModule):

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load static %}
+<canvas id="myChart4"  style="padding:2px" ></canvas>
+<script src="{% static 'js/chartjs.js' %}"></script>
+<script src="{% static 'js/jquery.js' %}"></script>
+<script>
+$(document).ready(function() {
+    api_url = "/budget/apiis?title=depense_recette";
+    $.ajax({
+        method: "GET",
+        url: api_url,
+        success: function(data) {
+            setChart(data.labels, data.depense, data.recette);
+        },
+        error: function(error_data) {
+            console.log("Error");
+            console.log(error_data);
+        }
+    });
+
+    function setChart(labels, depense, recette) {
+        var ctx = $("#myChart4");
+        var myChart = new Chart(ctx, {
+            type: "line", // Change the chart type to 'line'
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Dépense Global",
+                        borderColor: "#FFB6C1", // Set the line color
+                        fill: false, // Do not fill the area under the line
+                        borderWidth: 2,
+                        data: depense
+                    },
+                    {
+                        label: "Recette Global",
+                        borderColor: "#ADD8E6", // Set the line color
+                        fill: false, // Do not fill the area under the line
+                        borderWidth: 2,
+                        data: recette
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [
+                        {
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }
+                    ]
+                }
+            }
+        });
+    }
+});
+</script>

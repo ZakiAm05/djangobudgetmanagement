@@ -1,7 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 from jet.dashboard import modules
 from jet.dashboard.dashboard import Dashboard, AppIndexDashboard
-from core.dashboard_modules import Nombre_budgetenreg
+from core.dashboard_modules import Nombre_budgetenreg,continous_recette_depense
 
 
 
@@ -9,12 +9,12 @@ from core.dashboard_modules import Nombre_budgetenreg
 class CustomIndexDashboard(Dashboard):
     columns = 1
     def init_with_context(self, context):
-        self.available_children=[Nombre_budgetenreg,modules.LinkList]
+        self.available_children=[Nombre_budgetenreg,continous_recette_depense,modules.LinkList]
 
 
         self.children=[
             Nombre_budgetenreg(_('Nombre Total de budgets enregistés')),
-
+            continous_recette_depense(_('Recette et Depense dernier 5 jours continue')),
         ]
 
         self.children.append(modules.AppList(
